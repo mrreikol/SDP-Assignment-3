@@ -8,7 +8,7 @@ public class Main {
         }
 
         int passed = 0;
-        int total = 5;
+        int total = 7;
 
         Device tv = new TvDevice();
         Device radio = new RadioDevice();
@@ -61,6 +61,24 @@ public class Main {
         if (t5Pass) passed++;
         System.out.println("T5 " + (t5Pass ? "PASS" : "FAIL") + " sameObject=" + sameObject + " | stateUnchanged=" + stateUnchanged);
         System.out.println("   before=" + resBefore + " | after=" + resAfter);
+
+        Device projector = new ProjectorDevice();
+
+        Remote basicProj = new BasicRemote("R-B1", projector);
+        String t6Expected = "BasicRemote[R-B1] -> PROJECTOR | power=ON | volume=30";
+        String t6Actual = basicProj.execute();
+        boolean t6Pass = t6Actual.equals(t6Expected);
+        if (t6Pass) passed++;
+        System.out.println("T6 " + (t6Pass ? "PASS" : "FAIL") + " | BasicRemote + ProjectorDevice | result=" + t6Actual);
+        if (!t6Pass) System.out.println("   Expected: " + t6Expected);
+
+        Remote quietProj = new QuietRemote("R-Q1", projector);
+        String t7Expected = "QuietRemote[R-Q1] -> PROJECTOR | power=ON | volume=5";
+        String t7Actual = quietProj.execute();
+        boolean t7Pass = t7Actual.equals(t7Expected);
+        if (t7Pass) passed++;
+        System.out.println("T7 " + (t7Pass ? "PASS" : "FAIL") + " | QuietRemote + ProjectorDevice | result=" + t7Actual);
+        if (!t7Pass) System.out.println("   Expected: " + t7Expected);
 
         System.out.println("SUMMARY: " + passed + "/" + total + " PASS");
     }
